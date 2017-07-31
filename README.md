@@ -3,7 +3,7 @@
 Site-Editor app
 ---------------------------------
 
-This app is based on some real-life code you will encounter when working at LKQD, its a form to update a "Site" and the targeting of advertising
+This app is a form to update a "Site" and the targeting of advertising
   tags to that site.  Please take a moment to familiarize yourself with the mock.  An explanation of some of the terms:
 
 Site: a particular place on the "connected-internet" where advertising will be served - for example "mobile.cnn.com" or "Angry Birds" - a site can only belong
