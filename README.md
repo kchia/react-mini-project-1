@@ -1,5 +1,109 @@
 
 # react-mini-project-1
+Site-Editor app
+---------------------------------
+
+This app is based on some real-life code you will encounter when working at LKQD, its a form to update a "Site" and the targeting of advertising
+  tags to that site.  Please take a moment to familiarize yourself with the mock.  An explanation of some of the terms:
+
+Site: a particular place on the "connected-internet" where advertising will be served - for example "mobile.cnn.com" or "Angry Birds" - a site can only belong
+  to one environment.
+
+Environment: Classification of a site, either mobile web (environmentId = 1), mobile app (environmentId = 2), desktop (environmentId = 3), or
+  connected tv (environmentId = 4).
+
+Tag: An advertising url with embedded information about the advertising campaign - when it is called it will result in an ad being fetched and shown.  A tag can have
+  any combination-of/all-of the possible environments, and can only be targeted to a site if it shares the same environment.  Any # of tags can be targeted to a
+  particular site.
+
+Priority: Used by the ad-server to decide how to prioritize any one particular tag -> site association.
+
+
+This test is front-end only, you can communicate with the backend through 4 api endpoints (samples shown below):
+
+1) GET https://ui-test-api.lkqd.com/sites/123     - returns the state of Site #123
+
+{
+  "siteId": 123,
+  "name": "cnn.com",
+  "environmentId": 3,
+  "targetedTags": [{
+    "tagId": 12,
+    "priority": 1
+  }, {
+    "tagId": 78,
+    "priority": 5
+  }]
+}
+
+
+2) GET https://ui-test-api.lkqd.com/tags     - returns tags for targeting
+
+[{
+  "tagId": 12,
+  "name": "Desktop Tag $3.50",
+  "environmentIds": [3]
+}, {
+  "tagId": 34,
+  "name": "Mobile Devices Tag $1.00",
+  "environmentIds": [1, 2]
+}, {
+  "tagId": 56,
+  "name": "Connected TV Tag",
+  "environmentIds": [4]
+}, {
+  "tagId": 78,
+  "name": "Everywhere Tag",
+  "environmentIds": [1, 2, 3, 4]
+}, {
+  "tagId": 90,
+  "name": "Desktop Tag $4.00",
+  "environmentIds": [3]
+}, {
+  "tagId": 98,
+  "name": "Mobile Apps Tag",
+  "environmentIds": [2]
+}]
+
+
+3) POST https://ui-test-api.lkqd.com/sites/123     - send in the same format as the GET to update the state of Site #123
+
+4) GET https://ui-test-api.lkqd.com/reset     - (optional) reset the state of Site #123 to its original state (for debugging purposes or whatever you might need it for)
+
+You may need to use CORS (google it if unfamiliar) to access the backend.  If using angular you can use {withCredentials: true} when making http requests.
+
+
+You should populate the form with Site #123's data (for the purposes of this test no other site exists), and then provide the controls shown in the mock to
+  update that data:
+
+1) The Site: <name> header should update when the Name field is changed.
+
+2) Only one site environment can be selected at a time (radio buttons).  Changing the site's environment should (immediately) de-select any targeted tag entries that don't
+  have the new environment.  For example if "Desktop Tag $3.50" was currently targeted, but the site changed to "Connected TV", then "Desktop Tag $3.50" should
+  no longer be targeted.
+
+3) The Tags table should only show tags matching the currently selected environment of the site.
+
+4) The data for whether a tag is targeted and the priority that targeting is set at is available in the site payload (GET /sites/123).  Based on that data if a tag is not currently
+  being targeted then the priority should be set to 3.
+
+5) The data for the tag ID, name, and environments is available in the tags payload (GET /tags).
+
+6) The Environments column in the tags table should show the environments for that tag in human-readable form as shown in the mock (ex. environmentId = 1 should
+  translate to "Mobile Web").
+
+7) If something is typed in the search field it should filter the rows in the tag table, matching against either an exact tag id (typing "12" would show the
+  tag with ID = 12), or a partial case-insensitive match against the name (typing "every" would show "Everywhere Tag").
+
+8) Clicking the save button should call the POST /sites/123 endpoint with a json payload of the updated state of the site that the form represents (same
+  payload format as seen in GET /sites/123).
+
+9) Compute the "delta" (aka "diff") of "targetedTags" in the payload - for example logically it might
+  be an additional attribute in the payload called "targetedTagsDelta".  It is left as an exercise for the test-taker to determine what format makes
+  sense here.  For example the data could be used to show an audit trail, or to rollback a set of changes, or so the backend doesn't write out the
+  complete state when saving a site.  It may help to imagine that there could be hundreds or thousand of tag->site associations when saving
+  a site.  For the purposes of this test you can just output the delta somewhere on the page when the site is saved.
+
 =======
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
