@@ -1,0 +1,51 @@
+.site-editor-dashboard {
+  padding: 20px;
+}
+
+.site-delta-info h1 {
+  font-weight: 300;
+}
+
+.dashboard-site-title {
+  font-weight: 300;
+}
+
+.dashboard-site-name label {
+  margin-right: 80px;
+}
+
+.dashboard-site-environment {
+  margin-top: 20px;
+}
+
+.dashboard-site-environment label {
+  margin-right: 30px;
+}
+.dashboard-site-environment .environment-radio-tabs{
+  display: inline-block;
+}
+
+.dashboard-tags-search-bar, .dashboard-tags-title {
+  display: inline-block;
+}
+
+.dashboard-tags {
+  margin-top: 50px
+}
+
+.dashboard-tags-title {
+  font-weight: 300;
+  margin-right: 60px;
+}
+
+.dashboard-tags-table {
+  padding: 10px;
+}
+
+.dashboard-tags-table thead {
+  text-align: left;
+}
+
+.dashboard-tags-table td {
+  padding: 10px;
+}
